@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,24 +7,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+// import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,6 +37,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  async function handleButton() {
+    try {
+     await  fetch(
+        `https://scheduleapi.herokuapp.com/user/login`,
+        {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email, password: password })
+        }
+      ).then(response => console.log(response.json()))
+    } catch (error) {
+      console.log("thow " + error.message);
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -70,7 +78,8 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
-          />
+            onChange={(e) => setEmail(e.target.value)}
+          />,
           <TextField
             variant="outlined"
             margin="normal"
@@ -81,16 +90,18 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
           <Button
-            type="submit"
+             type="button"
             fullWidth
             variant="contained"
             color="primary"
+            onClick={() => handleButton()}
             className={classes.submit}
           >
             Sign In
@@ -109,7 +120,8 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
-     
+
     </Container>
   );
 }
+

@@ -1,35 +1,35 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
+// import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import Box from '@material-ui/core/Box';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
-const onFinish = values => {
-    console.log('Vui lòng nhập đầy đủ thông tin.', values);
-}
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-        </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+// const onFinish = values => {
+//     console.log('Vui lòng nhập đầy đủ thông tin.', values);
+// }
+// function Copyright() {
+//     return (
+//         <Typography variant="body2" color="textSecondary" align="center">
+//             {'Copyright © '}
+//             <Link color="inherit" href="https://material-ui.com/">
+//                 Your Website
+//         </Link>{' '}
+//             {new Date().getFullYear()}
+//             {'.'}
+//         </Typography>
+//     );
+// }
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -55,7 +55,7 @@ const grade = [{title:'10', value:10},{title:'11', value:11},{title:'12', value:
 
 export default function Class() {
     const classes = useStyles();
-    const [value, setValue] = React.useState(grade[0]);
+    // const [value, setValue] = React.useState(grade[0]);
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -65,12 +65,12 @@ export default function Class() {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <Autocomplete
-                                id="combo-box-grade"
+                                id="grade"
                                 options={grade}
                                 getOptionLabel={(option) => option.title}
                                 fullWidth
-                                value={value}
-                                renderInput={(params) => <TextField {...params} label="Chọn khối" variant="outlined" />}
+                                // value={value}
+                                renderInput={(params) => <TextField {...params} name ="grade" label="Chọn khối" variant="outlined" />}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -81,7 +81,7 @@ export default function Class() {
                                 required
                                 fullWidth
                                 id="nameclass"
-                                label="Nhập tên lớp"
+                                label="Nhập số lượng lớp"
                                 autoFocus
                             />
                         </Grid>
