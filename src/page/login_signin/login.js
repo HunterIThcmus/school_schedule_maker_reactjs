@@ -7,12 +7,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-// import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import { useHistory } from 'react-router-dom'
+import Auth from "../../services/Auth";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,22 +39,25 @@ export default function SignIn() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory()
+ 
+  function handleButton(){
+      Auth.login(email,password).then(
+        () => {
+          history.push("/teacher");
+          window.location.reload();
+        },
+        error => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
 
-  async function handleButton() {
-    try {
-     await  fetch(
-        `https://scheduleapi.herokuapp.com/user/login`,
-        {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: email, password: password })
+         console.log(resMessage);
         }
-      ).then(response => console.log(response.json()))
-    } catch (error) {
-      console.log("thow " + error.message);
-    }
+      );
   }
 
   return (

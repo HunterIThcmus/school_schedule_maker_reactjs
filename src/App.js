@@ -3,9 +3,10 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import Login from "./page/login_signin/Login";
-import SignUp from "./page/login_signin/Signup";
+import Login from "./page/login_signin/login";
+import Signup from "./page/login_signin/signup";
 import Class from "./page/view/Class";
+import Teacher from "./page/view/Teacher"
 
 function App() {
   return (<Router>
@@ -16,8 +17,9 @@ function App() {
             <Switch>
               <Route exact path='/' component={Login} />
               <Route path="/login" component={Login} />
-              <Route path="/signup" component={SignUp} />
+              <Route path="/signup" component={Signup} />
               <Route path="/class" component={Class}/>
+              <Route path="/teacher" component={Teacher}/>
             </Switch>
           </div>
         </div>
