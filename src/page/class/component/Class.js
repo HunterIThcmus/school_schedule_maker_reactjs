@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -51,29 +51,51 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const grade = [{title:'10', value:10},{title:'11', value:11},{title:'12', value:12},];
+const value = [{ title: '10', value: 10 }, { title: '11', value: 11 }, { title: '12', value: 12 },];
 
 export default function Class() {
     const classes = useStyles();
-    // const [value, setValue] = React.useState(grade[0]);
+    const [grade, setGrade] = React.useState(value[0]);
+    const [number, setNumber] = useState('');
+    async function handleButton(e) {
+         e.preventDefault();
+        try {
+            await fetch(
+                `https://scheduleapi.herokuapp.com/class`,
+                {
+                    method: 'POST',
+                    headers: {
+                        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI2NzhjYWVjYjM1NDAwMTdmNTIyNDYiLCJpYXQiOjE1OTY4MTgyNTJ9.iOWOk8AvPmbRkCLy4TS0kYXDpnx94BQIzcRYX_wM5G8",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ number: number, grade: grade })
+                }
+            ).then(response => console.log(response.json()))
+        } catch (error) {
+            console.log("thow " + error.message);
+        }
+    }
+
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main">
             <CssBaseline />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5"> Nhập lớp </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} xm={6} >
                             <Autocomplete
                                 id="grade"
-                                options={grade}
+                                options={value}
                                 getOptionLabel={(option) => option.title}
                                 fullWidth
-                                // value={value}
-                                renderInput={(params) => <TextField {...params} name ="grade" label="Chọn khối" variant="outlined" />}
+                                onChange={(event, newValue) => {
+                                    setGrade(newValue.value)
+                                }}
+                                renderInput={(params) => <TextField {...params} name="grade" label="Chọn khối" variant="outlined" />}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} xm={6}>
                             <TextField
                                 autoComplete="fname"
                                 name="nameclass"
@@ -82,21 +104,23 @@ export default function Class() {
                                 fullWidth
                                 id="nameclass"
                                 label="Nhập số lượng lớp"
-                                autoFocus
+                                onChange={(e) => setNumber(e.target.value)}
                             />
                         </Grid>
 
                     </Grid>
+                    <Grid item xs={12} xm={6}>
                     <Button
                         type="submit"
                         width="120"
                         variant="contained"
                         color="primary"
+                        onClick={(e) => handleButton(e)}
                         className={classes.submit}
                     >
-                       Thêm mới
+                        Thêm mới
                      </Button>
-
+                     </Grid>
                 </form>
             </div>
 
