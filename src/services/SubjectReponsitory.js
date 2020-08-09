@@ -2,7 +2,7 @@
 import authHeader from "./AuthHeader";
 import axios from "axios";
 
-const API_URL = "https://scheduleapi.herokuapp.com/subject";
+const API_URL = "https://scheduleapi.herokuapp.com/subjects";
 
 class SubjectReponsitory {
   getAllSubject() {

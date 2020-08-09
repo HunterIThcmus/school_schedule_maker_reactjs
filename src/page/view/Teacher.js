@@ -3,7 +3,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import TeacherReponsitory from "../../services/TeacherReponsitory";
 import SubjectReponsitory from "../../services/SubjectReponsitory";
-import axios from "axios";
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function Teacher() {
   const classes = useStyles();
 
@@ -42,22 +42,18 @@ export default function Teacher() {
   const [period_per_week, setPeriodPerWeek] = useState();
   const [grade, setGrade] = useState();
   const [subject, setSubject] = useState();
-
-  const [items, setItem] = useState( [] );
+  const [required, setRequired] = useState();
+  const [items, setItems] = useState([]);
+  const grades = ["10", "11", "12"];
 
   useEffect(() => {
-    const getCharacters = async () => {
-      const result = await axios.get(
-        `https://scheduleapi.herokuapp.com/subject`,
-        {
-          headers: {
-            "auth-token": JSON.parse(localStorage.getItem("user")).token,
-          },
-        }
-      ).then(response => response.data)
-      setItem(result)
-      console.log(items)
-    };
+
+    async function getCharacters() {
+      const response = await SubjectReponsitory.getAllSubject();
+      let body = response.data;
+      setItems(body.data);
+      console.log(body.data);
+    }
     getCharacters();
   }, []);
 
@@ -68,6 +64,7 @@ export default function Teacher() {
       period_per_week,
       grade,
       subject,
+      required
     ).then((response) => console.log(response));
   }
 
@@ -85,8 +82,7 @@ export default function Teacher() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
+                autoComplete="firstname"
                 variant="outlined"
                 required
                 fullWidth
@@ -103,7 +99,6 @@ export default function Teacher() {
                 fullWidth
                 id="lastName"
                 label="Tên"
-                name="lastName"
                 autoComplete="lname"
                 onChange={(e) => setLastName(e.target.value)}
               />
@@ -115,7 +110,6 @@ export default function Teacher() {
                 fullWidth
                 id="teacher_id"
                 label="ID Giáo viên"
-                name="teacher_id"
                 autoComplete="teacher_id"
                 onChange={(e) => setTeacherId(e.target.value)}
               />
@@ -125,17 +119,30 @@ export default function Teacher() {
                 variant="outlined"
                 required
                 fullWidth
-                name="period_per_week"
                 label="Số tiết"
                 type="number"
                 InputProps={{
-                  inputProps: { 
-                      max: 30, min: 1 
+                  inputProps: {
+                    max: 30, min: 1
                   }
-              }}
+                }}
                 id="period_per_week"
                 autoComplete="period_per_week"
                 onChange={(e) => setPeriodPerWeek(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="required"
+                label="Ràng buộc giáo viên"
+                select
+                type="number"
+                id="required"
+                autoComplete="required"
+                onChange={(e) => setRequired(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -144,13 +151,16 @@ export default function Teacher() {
                 required
                 fullWidth
                 select
-                name="grade"
                 label="Khối"
                 id="grade"
                 autoComplete="grade"
                 onChange={(e) => setGrade(e.target.value)}
               >
-                {items.sortName}
+                {grades.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -159,16 +169,20 @@ export default function Teacher() {
                 required
                 fullWidth
                 select
-                name="subject"
                 label="Môn học"
                 id="subject"
                 autoComplete="subject"
                 onChange={(e) => setSubject(e.target.value)}
               >
-                {items.sortName}
+                {grade != null ? items.map((option) => (
+                  option.grade == grade ? (
+                    <MenuItem key={option.grade} value={option.sortName}>
+                      {option.sortName}
+                    </MenuItem>) : null
+                )) : null}
               </TextField>
             </Grid>
-          
+
           </Grid>
           <Button
             type="button"
@@ -180,7 +194,7 @@ export default function Teacher() {
           >
             Tạo giáo viên
           </Button>
-        
+
         </form>
       </div>
     </Container>

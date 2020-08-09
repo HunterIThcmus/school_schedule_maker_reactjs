@@ -1,7 +1,7 @@
 import authHeader from "./AuthHeader";
 import axios from "axios";
 
-const API_URL = "https://scheduleapi.herokuapp.com/teacher";
+const API_URL = "https://scheduleapi.herokuapp.com/teachers";
 
 class TeacherReponsitory {
   create(name, teacher_id, period_per_week, grade, subject, required) {
@@ -13,6 +13,7 @@ class TeacherReponsitory {
         period_per_week,
         grade,
         subject,
+        required
       },
       {
         headers: authHeader(),

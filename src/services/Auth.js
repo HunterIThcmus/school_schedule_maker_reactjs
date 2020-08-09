@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://scheduleapi.herokuapp.com/user/";
+const API_URL = "https://scheduleapi.herokuapp.com/users/";
 
 class Auth {
 

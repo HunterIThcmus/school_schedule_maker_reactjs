@@ -52,7 +52,7 @@ export default function SignUp() {
 
   async function handleButton() {
     if (handelPassword()) {
-      Auth.register()
+      Auth.register(firstName + " " + email, password,repeat_password)
     }
   }
 
@@ -140,7 +140,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             onClick={() => handleButton()}
-           className={classes.submit}
+            className={classes.submit}
           >
             Sign Up
           </Button>
