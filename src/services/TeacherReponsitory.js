@@ -20,5 +20,13 @@ class TeacherReponsitory {
       }
     );
   }
+  getAllTeacher(){
+    return axios.get(
+      API_URL,
+      {
+        headers: authHeader(),
+      }
+    )
+  }
 }
 export default new TeacherReponsitory();
