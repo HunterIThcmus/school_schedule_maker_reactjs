@@ -55,16 +55,17 @@ const useStyles = makeStyles((theme) => ({
 
 const value = [{ title: '10', value: 10 }, { title: '11', value: 11 }, { title: '12', value: 12 },];
 
-export default function page() {
+export default function Page() {
+    const[add,setAdd]=useState(1);
     return (
         <Container component="main">
             <CssBaseline />
             <Grid container spacing={2}>
                 <Grid item xs={4}>
-                    <Class></Class>
+                    <Class change={setAdd}></Class>
                 </Grid>
                 <Grid item xs={8}>
-                    <ListClass></ListClass>
+                    <ListClass add={add}></ListClass>
                 </Grid>
             </Grid>
 

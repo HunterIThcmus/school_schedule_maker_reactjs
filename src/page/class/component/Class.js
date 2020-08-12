@@ -53,15 +53,16 @@ const useStyles = makeStyles((theme) => ({
 
 const value = [{ title: '10', value: 10 }, { title: '11', value: 11 }, { title: '12', value: 12 },];
 
-export default function Class() {
+export default function Class(props) {
     const classes = useStyles();
     const [grade, setGrade] = React.useState(value[0]);
     const [number, setNumber] = useState('');
     async function handleButton(e) {
          e.preventDefault();
+         props.change(number);
         try {
             await fetch(
-                `https://scheduleapi.herokuapp.com/class`,
+                `https://scheduleapi.herokuapp.com/classes`,
                 {
                     method: 'POST',
                     headers: {
