@@ -17,6 +17,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
+import Auth from "../services/Auth";
 
 class Header extends React.Component {
   constructor(props) {
@@ -37,6 +38,9 @@ class Header extends React.Component {
   render() {
     const bgPink = { backgroundColor: "#3F51B5" };
     const user = "minh"
+    const onClickHandler = (event => {
+      Auth.logout()
+    })
     return (
       <div>
           <header>
@@ -69,7 +73,7 @@ class Header extends React.Component {
                       </MDBDropdownToggle>
                       <MDBDropdownMenu right>
                         <MDBDropdownItem href="profile">Thông tin cá nhân</MDBDropdownItem>
-                        <MDBDropdownItem href="#!">Đăng xuất</MDBDropdownItem>
+                        <MDBDropdownItem onClick = {onClickHandler} href="login">Đăng xuất</MDBDropdownItem>
                       </MDBDropdownMenu>
                     </MDBDropdown>
                   </MDBNavItem>

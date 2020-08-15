@@ -23,8 +23,8 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {router.location.pathname !== "/Login" &&
-        router.location.pathname !== "/Signup" ? (
+        {router.location.pathname !== "/" && router.location.pathname !== "/login" && router.location.pathname !== "/Login" &&
+        router.location.pathname !== "/SignUp" ? (
           <Header />
         ) : null}
         <div className="container">

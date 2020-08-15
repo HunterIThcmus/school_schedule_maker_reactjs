@@ -1,30 +1,36 @@
-import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Auth from "../../services/Auth"
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Auth from "../../services/Auth";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+import { useHistory } from "react-router-dom";
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -39,22 +45,43 @@ export default function SignUp() {
   const [repeat_password, setRepeatPassword] = useState();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
+  const [open, setOpen] = useState(false);
+  const history = useHistory();
 
   function handelPassword() {
-    console.log("------------------", password, repeat_password)
-    if (!password == repeat_password) {
-      alert("Mật khẩu không trùng khớp")
+    if (!password === repeat_password) {
+      alert("Mật khẩu không trùng khớp");
       return false;
     }
     return true;
   }
 
-
   async function handleButton() {
     if (handelPassword()) {
-      Auth.register(firstName + " " +lastName,  email, password,repeat_password)
+      await Auth.register(
+        firstName + " " + lastName,
+        email,
+        password,
+        repeat_password
+      ).then(
+        () => {
+          Auth.login(email, password).then(() => {
+            history.push("/teacher");
+            window.location.reload();
+          });
+        },
+        (error) => {
+          setOpen(true);
+        }
+      );
     }
   }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -132,7 +159,6 @@ export default function SignUp() {
                 onChange={(e) => setRepeatPassword(e.target.value)}
               />
             </Grid>
-
           </Grid>
           <Button
             type="button"
@@ -152,8 +178,17 @@ export default function SignUp() {
             </Grid>
           </Grid>
         </form>
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity="error">
+            Đăng ký không thành công!
+          </Alert>
+        </Snackbar>
       </div>
-
     </Container>
   );
 }
