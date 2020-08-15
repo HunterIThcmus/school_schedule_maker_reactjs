@@ -52,7 +52,7 @@ export default function SignUp() {
 
   async function handleButton() {
     if (handelPassword()) {
-      Auth.register(firstName + " " + email, password,repeat_password)
+      Auth.register(firstName + " " +lastName,  email, password,repeat_password)
     }
   }
 
@@ -135,7 +135,7 @@ export default function SignUp() {
 
           </Grid>
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"

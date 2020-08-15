@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom'
 import Auth from "../../services/Auth";
+import Alert from "../../components/TransitionAlerts"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,14 +49,14 @@ export default function SignIn() {
           window.location.reload();
         },
         error => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+          //   const resMessage =
+          //     (error.response &&
+          //       error.response.data &&
+          //       error.response.data.message) ||
+          //     error.message ||
+          //     error.toString();
 
-         console.log(resMessage);
+          // console.log("Đang nhập thất bại");
         }
       );
   }
@@ -100,7 +101,7 @@ export default function SignIn() {
             label="Remember me"
           />
           <Button
-             type="button"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"

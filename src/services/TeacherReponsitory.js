@@ -28,5 +28,21 @@ class TeacherReponsitory {
       }
     )
   }
+  getTeacherById(idTeacher){
+    return axios.get(
+      API_URL+`/${idTeacher}`,
+      {
+        headers: authHeader(),
+      }
+    )
+  }
+  getRequiredTeacher(){
+    return axios.get(
+      API_URL+'/requires',
+      {
+        headers: authHeader(),
+      }
+    )
+  }
 }
 export default new TeacherReponsitory();
