@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+// import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+
+import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useHistory } from 'react-router-dom';
-import authHeader from "../../../services/AuthHeader";
-import Button from "@material-ui/core/Button";
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useHistory ,useLocation} from 'react-router-dom';
+import authHeader from "../../services/AuthHeader";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,64 +32,65 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Class(props) {
+export default function Subject(props) {
     const classes = useStyles();
     const [data, setData] = useState();
-    const data1 = [{ "name": "test1" }, { "name": "test2" }];
     const [isBusy, setBusy] = useState(true);
-    const history = useHistory()
+    const history = useHistory();
+    let location = useLocation();
 
-    function handleButtonDelete(index) {
+    async function handleButtonDetele(index) {
         try {
-            let response = fetch(
-                `https://scheduleapi.herokuapp.com/classes/` + data[index]._id,
+            let response = await fetch(
+                `https://scheduleapi.herokuapp.com/subjects/` + data[index]._id,
                 {
                     method: 'DELETE',
-                    headers: {
-                        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjM1NDQzYmIxY2RjNjAwMTdjNTc4YTkiLCJpYXQiOjE1OTczMjY4MTZ9.FjnzhPAwfQB8XPSv9qksKipiYLRyWdPFFmWvzON0OUg",
-                        "Content-Type": "application/json",
-                    },
+                    headers: authHeader(),
                     body: JSON.stringify()
                 }
             )
-            // let responseData = response.json;
-            // console.log(response);
+            let responseData = await response.json();
             let newdata = [...data];
             newdata.splice(index, 1);
             setData(newdata);
+            console.log(responseData);
+        } catch (error) {
+            console.log("thow " + error.message);
+        }
 
 
+    }
+    async function handleButtonUpdate(index) {
+        try {
+            let response = await fetch(
+                `https://scheduleapi.herokuapp.com/subjects/` + data[index]._id,
+                {
+                    method: 'DELETE',
+                    headers: authHeader(),
+                    body: JSON.stringify()
+                }
+            )
+            let responseData = await response.json();
+            let newdata = [...data];
+            newdata.splice(index, 1);
+            setData(newdata);
+            console.log(responseData);
         } catch (error) {
             console.log("thow " + error.message);
         }
     }
-    async function handleButtonView(index) {
-        history.push("/subject/view/" + data[index]._id + "/" + data[index].name);
-        // try {
-        //      let response = await fetch(
-        //         `https://scheduleapi.herokuapp.com/classes/`+data[index]._id,
-        //         {
-        //             method: 'GET',
-        //             headers: {
-        //                 "auth-token": ".",
-        //                 "Content-Type": "application/json",
-        //             },
-        //             body: JSON.stringify()
-        //         }
-        //     )
-        //     let responseData = await response.json();
-        //     console.log(responseData);
-        // } catch (error) {
-        //     console.log("thow " + error.message);
-        // }
-
+    function handleButtonAdd(){
+        history.push("/subject/add/"+props.match.params.class_id);
     }
+
+
+
 
     useEffect(() => {
         async function fetchData() {
-            // setBusy(true);
             try {
-                let response = await fetch(`https://scheduleapi.herokuapp.com/classes`,
+                let response = await fetch(
+                    `https://scheduleapi.herokuapp.com/subjects/byclass/` + props.match.params.class_id,
                     {
                         method: 'GET',
                         headers: authHeader(),
@@ -95,26 +99,39 @@ export default function Class(props) {
                 )
                 let responseData = await response.json();
                 await setData(responseData.data);
-                await setBusy(false);
-                await console.log(data);
+                setBusy(false);
                 console.log(responseData.data);
             } catch (error) {
                 console.log("thow " + error.message);
             }
         }
         fetchData()
-    }, [props.add])
+    }, [])
 
     return (
         <Container component="main" maxWidth="xs">
-            {/* <p>{props.add}</p> */}
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h4"> DANH SÁCH LỚP  </Typography>
+            {/* {props.match.params.name} */}
+                <Typography component="h1" variant="h5"> DANH SÁCH MÔN CỦA LỚP </Typography>
                 <div>
+                    <div>
+                        <Button
+                            width="120"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleButtonAdd()}>
+                            Thêm môn +
+                            </Button>
+                    </div>
                     {isBusy ? (<p></p>) : (
+                        //             data.map((item, index) => <li key={item.name}>{item.name}
+                        //                <button onClick={() => handleButtonDetele(index)}>
+                        //                     Delete
+                        // </button>
+                        //             </li>))} data.map((item, index) => <li key={item.name}>
                         data.map((item, index) => <li key={item.name}>
-                            <Grid container spacing={2}>
+                            <Grid container spacing={1}>
                                 <Grid item xs={6}>
                                     {item.name}
                                 </Grid>
@@ -122,21 +139,22 @@ export default function Class(props) {
                                     <Button
                                         width="120"
                                         variant="contained"
-                                        color="default" onClick={() => handleButtonView(index)}
-                                    >View</Button>
+                                        color="default" onClick={() => handleButtonUpdate(index)}
+                                    >Update</Button>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Button
                                         width="120"
                                         variant="contained"
                                         color="secondary"
-                                        onClick={() => handleButtonDelete(index)}>
+                                        onClick={() => handleButtonDetele(index)}>
                                         Delete
-                                </Button>
+                            </Button>
                                 </Grid>
                             </Grid>
 
                         </li>))}
+
                 </div>
             </div>
         </Container>

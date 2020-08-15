@@ -14,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import authHeader from "../../../services/AuthHeader";
+
 
 // const onFinish = values => {
 //     console.log('Vui lòng nhập đầy đủ thông tin.', values);
@@ -53,19 +55,21 @@ const useStyles = makeStyles((theme) => ({
 
 const value = [{ title: '10', value: 10 }, { title: '11', value: 11 }, { title: '12', value: 12 },];
 
-export default function Class() {
+export default function Class(props) {
     const classes = useStyles();
     const [grade, setGrade] = React.useState(value[0]);
     const [number, setNumber] = useState('');
     async function handleButton(e) {
          e.preventDefault();
+         props.change("false");
         try {
             await fetch(
-                `https://scheduleapi.herokuapp.com/class`,
+                `https://scheduleapi.herokuapp.com/classes`,
                 {
                     method: 'POST',
                     headers: {
-                        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI2NzhjYWVjYjM1NDAwMTdmNTIyNDYiLCJpYXQiOjE1OTY4MTgyNTJ9.iOWOk8AvPmbRkCLy4TS0kYXDpnx94BQIzcRYX_wM5G8",
+                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjM1NGY5YmIxY2RjNjAwMTdjNTc5NDMiLCJpYXQiOjE1OTczMjkzMjZ9.BYL2jMXICTLgfJaEUzlgnCvcOsl8P9ZX7R2oF6hb7k4",
+                        // "auth-token":authHeader(),
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ number: number, grade: grade })
@@ -80,7 +84,7 @@ export default function Class() {
         <Container component="main">
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5"> Nhập lớp </Typography>
+                <Typography component="h1" variant="h4"> THÊM LỚP </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} xm={6} >
