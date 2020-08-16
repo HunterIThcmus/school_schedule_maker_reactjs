@@ -12,6 +12,11 @@ import TeacherReponsitory from "../../services/TeacherReponsitory";
 import SubjectReponsitory from "../../services/SubjectReponsitory";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useHistory } from "react-router-dom";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,6 +36,13 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  formControl: {
+    margin: theme.spacing(1),
+  },
+  formGroup: {
+    // margin: theme.spacing(2,5),// TRBL
+    padding: theme.spacing(1,6)
+  },
 }));
 
 export default function Teacher() {
@@ -44,7 +56,7 @@ export default function Teacher() {
   const [subject, setSubject] = useState();
   const [required, setRequired] = useState();
   const [items, setItems] = useState([]);
-  const [requiredList, setrequiredList] = useState([]);
+  const [requiredList, setRequiredList] = useState([]);
   const grades = ["10", "11", "12"];
   const history = useHistory();
 
@@ -53,23 +65,19 @@ export default function Teacher() {
       const response = await SubjectReponsitory.getAllSubject();
       let body = response.data;
       setItems(body.data);
-      // console.log(body.data);
-      // const response = await SubjectReponsitory.getRequired();
-      // let body = response.data;
-      // setrequiredList(body.data);
     }
     getCharacters();
 
     async function getRequired() {
       const response = await TeacherReponsitory.getRequiredTeacher();
       let body = response.data;
-      setrequiredList(body.data);
+      setRequiredList(body.data);
     }
     getRequired();
   }, []);
 
-
   async function handleButton() {
+    setRequired(str);
     TeacherReponsitory.create(
       firstName + " " + lastName,
       teacher_id,
@@ -78,10 +86,19 @@ export default function Teacher() {
       subject,
       required
     ).then((response) => console.log(response));
+    history.push("/teacherlist");
   }
 
   function back() {
-    history.push("/teacherlist");
+    return history.push("/teacherlist");
+  }
+  var str = "0000000000";
+  function checkRequired(type) {
+    str = setCharAt(str, type, str.charAt(type) == "0" ? "1" : "0");
+  }
+  function setCharAt(str, index, chr) {
+    if (index > str.length - 1) return str;
+    return str.substring(0, index) + chr + str.substring(index + 1);
   }
 
   return (
@@ -149,23 +166,17 @@ export default function Teacher() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="required"
-                label="Ràng buộc giáo viên"
-                select
-                type="number"
-                autoComplete="required"
-                onChange={(e) => setRequired(e.target.value)}
-              >
-                {requiredList.map((option) => (
-                  <MenuItem key={option.type} value={option.description}>
-                    {option.description}
-                  </MenuItem>
-                ))}
-              </TextField>
+              <FormControl required  component="fieldset" className={classes.formControl} >
+                <FormLabel component="legend">Chọn ràng buộc của giáo viên</FormLabel>
+                <FormGroup row className={classes.formGroup} >
+                  {requiredList.map((element) => (
+                    <FormControlLabel
+                      control={ <Checkbox onChange={(e) => checkRequired(element.type)} name={element.description} /> }
+                      label={element.description}
+                    />
+                  ))}
+                </FormGroup>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -198,7 +209,7 @@ export default function Teacher() {
               >
                 {grade != null
                   ? items.map((option) =>
-                      option.grade === grade ? (
+                      option.grade == grade ? (
                         <MenuItem key={option.grade} value={option.sortName}>
                           {option.sortName}
                         </MenuItem>

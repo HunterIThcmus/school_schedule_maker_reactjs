@@ -48,12 +48,10 @@ const tableIcons = {
 };
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-      marginTop: theme.spacing(20),
-     
-    },
-   
-  }));
+  paper: {
+    marginTop: theme.spacing(20),
+  },
+}));
 
 export default function TeacherList() {
   const classes = useStyles();
@@ -92,15 +90,14 @@ export default function TeacherList() {
   }, []);
   const history = useHistory();
   function update(id) {
-    history.push(`/teacher?id=${id}`);
+    return history.push(`/teacher?id=${id}`);
   }
   function deleteItem(id) {
     // history.push("/teacher?id=${id}");
   }
   return (
-     <Container component="main">
-         <div className={classes.paper}> 
-        
+    <Container component="main">
+      <div className={classes.paper}>
         <MaterialTable
           icons={tableIcons}
           title="Danh sách giáo viên"
@@ -118,15 +115,14 @@ export default function TeacherList() {
               onClick: (event, rowData) => deleteItem(rowData.id),
             },
             {
-                icon: tableIcons.Add,
-                onClick: (event, rowData) => update(0),
-                isFreeAction: true,
-                tooltip: 'Thêm mới',
-              }
+              icon: tableIcons.Add,
+              onClick: (event, rowData) => update(0),
+              isFreeAction: true,
+              tooltip: "Thêm mới",
+            },
           ]}
-          
         />
-        </div>
-     </Container>
+      </div>
+    </Container>
   );
 }

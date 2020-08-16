@@ -6,7 +6,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // withRouter,
+  Redirect
 } from "react-router-dom";
 import Login from "./page/login_signin/Login";
 import Signup from "./page/login_signin/Signup";
@@ -15,38 +15,40 @@ import Class from "./page/class/Group_Class";
 import Teacher from "./page/view/Teacher";
 import TeacherList from "./page/view/TeacherList";
 import Header from "./components/Header";
+import PageError from "./components/PageError";
+
 // import Footer from "./components/Footer";
 // import BreadcrumbPage from "./components/BreadcrumbPage";
 
 function App() {
   const router = new Router().history;
+  console.log(router)
   return (
     <Router>
       <div className="App">
-        {router.location.pathname !== "/" && router.location.pathname !== "/login" && router.location.pathname !== "/Login" &&
+        {router.location.pathname !== "/" &&
+        router.location.pathname !== "/login" &&
+        router.location.pathname !== "/Login" &&
+        router.location.pathname !== "/404" &&
         router.location.pathname !== "/SignUp" ? (
           <Header />
         ) : null}
         <div className="container">
-        {/* <BreadcrumbPage /> */}
-
-          <div className="row">
-            <div className="col-md-12">
+          <div >
+            <div >
               <Switch>
                 <Route exact path="/" component={Login} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/class" component={Class} />
                 <Route path="/teacher" component={Teacher} />
-                <Route path="/teacherList" component={TeacherList} />
+                <Route path="/teacherlist" component={TeacherList} />
+                <Route path="/404" component={PageError} />
+                <Redirect from='*' to='/404' />
               </Switch>
             </div>
           </div>
         </div>
-        {/* {router.location.pathname !== "/Login" &&
-        router.location.pathname !== "/Signup" ? (
-          <Footer />
-        ) : null} */}
       </div>
     </Router>
   );

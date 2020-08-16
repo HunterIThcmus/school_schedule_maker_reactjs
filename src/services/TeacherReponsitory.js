@@ -4,7 +4,7 @@ import axios from "axios";
 const API_URL = "https://scheduleapi.herokuapp.com/teachers";
 
 class TeacherReponsitory {
-  create(name, teacher_id, period_per_week, grade, subject, required) {
+  create(name, teacher_id, period_per_week, grade, subject, require) {
     return axios.post(
       API_URL,
       {
@@ -13,7 +13,7 @@ class TeacherReponsitory {
         period_per_week,
         grade,
         subject,
-        required
+        require
       },
       {
         headers: authHeader(),
