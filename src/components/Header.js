@@ -37,7 +37,7 @@ class Header extends React.Component {
 
   render() {
     const bgPink = { backgroundColor: "#3F51B5" };
-    const user = "minh"
+    const user = JSON.parse(localStorage.getItem('user')).username;
     const onClickHandler = (event => {
       Auth.logout()
     })
@@ -45,14 +45,14 @@ class Header extends React.Component {
       <div>
           <header>
             <MDBNavbar style={bgPink} dark expand="md" scrolling fixed="top">
-              <MDBNavbarBrand href="/">
+              <MDBNavbarBrand href="/home">
                 <strong>TKB</strong>
               </MDBNavbarBrand>
               <MDBNavbarToggler onClick={this.onClick} />
               <MDBCollapse isOpen={this.state.collapse} navbar>
                 <MDBNavbarNav left>
                   <MDBNavItem active>
-                    <MDBNavLink to="#">Trang chủ</MDBNavLink>
+                    <MDBNavLink to="/home">Trang chủ</MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem>
                     <MDBNavLink to="/teacherlist">Giáo viên</MDBNavLink>
@@ -63,13 +63,13 @@ class Header extends React.Component {
                   <MDBNavItem>
                     <MDBNavLink to="/subject">Môn học</MDBNavLink>
                   </MDBNavItem>
-                </MDBNavbarNav> 
+                </MDBNavbarNav>
                 <MDBNavbarNav right>
                   <MDBNavItem>
                     <MDBDropdown>
                       <MDBDropdownToggle nav caret>
                         <MDBIcon icon="user" className="d-inline-inline" />{" "}
-                        <div className="d-none d-md-inline">{user} </div>
+                        <div className="d-none d-md-inline ml-2">{user}</div>
                       </MDBDropdownToggle>
                       <MDBDropdownMenu right>
                         <MDBDropdownItem href="profile">Thông tin cá nhân</MDBDropdownItem>

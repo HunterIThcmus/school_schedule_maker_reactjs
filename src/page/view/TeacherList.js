@@ -3,6 +3,7 @@ import MaterialTable from "material-table";
 import { forwardRef } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -97,6 +98,7 @@ export default function TeacherList() {
   }
   return (
     <Container component="main">
+      <CssBaseline />
       <div className={classes.paper}>
         <MaterialTable
           icons={tableIcons}

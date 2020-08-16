@@ -59,12 +59,12 @@ export default function PageError() {
           </div>
         </div>
       </div>
-      {/* <a href="https://codepen.io/SofiaSergio/" target="_blank">
+      <a href="/home" target="_blank">
         <div id="link">
           <i class="fab fa-codepen"></i>
-          <p>watch other pens</p>
+          <p>Trang chủ</p>
         </div>
-      </a> */}
+      </a>
     </div>
   );
 }

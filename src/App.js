@@ -16,28 +16,29 @@ import Teacher from "./page/view/Teacher";
 import TeacherList from "./page/view/TeacherList";
 import Header from "./components/Header";
 import PageError from "./components/PageError";
+import Home from "./page/view/Home";
 
 // import Footer from "./components/Footer";
 // import BreadcrumbPage from "./components/BreadcrumbPage";
 
 function App() {
   const router = new Router().history;
-  console.log(router)
   return (
     <Router>
       <div className="App">
         {router.location.pathname !== "/" &&
-        router.location.pathname !== "/login" &&
-        router.location.pathname !== "/Login" &&
-        router.location.pathname !== "/404" &&
-        router.location.pathname !== "/SignUp" ? (
-          <Header />
-        ) : null}
+          router.location.pathname !== "/login" &&
+          router.location.pathname !== "/Login" &&
+          router.location.pathname !== "/404" &&
+          router.location.pathname !== "/SignUp" ? (
+            <Header />
+          ) : null}
         <div className="container">
           <div >
             <div >
               <Switch>
                 <Route exact path="/" component={Login} />
+                <Route path="/home" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/class" component={Class} />

@@ -91,7 +91,7 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Đăng ký
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -103,7 +103,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="firstName"
-                label="First Name"
+                label="Họ"
                 autoFocus
                 onChange={(e) => setFirstName(e.target.value)}
               />
@@ -115,7 +115,7 @@ export default function SignUp() {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
+                name="Tên"
                 value={lastName}
                 autoComplete="lname"
                 onChange={(e) => setLastName(e.target.value)}
@@ -127,7 +127,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Địa chỉ email"
                 name="email"
                 autoComplete="email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -139,7 +139,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Mật khẩu"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -152,7 +152,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 name="repeat_password"
-                label="Repeat Password"
+                label="Nhập lại mật khẩu"
                 type="password"
                 id="repeat_password"
                 autoComplete="current-reapeat-password"
@@ -168,12 +168,12 @@ export default function SignUp() {
             onClick={() => handleButton()}
             className={classes.submit}
           >
-            Sign Up
+            Đăng kí
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="Login" variant="body2">
-                Already have an account? Sign in
+                Đã có tài khoản? Đăng nhập
               </Link>
             </Grid>
           </Grid>
