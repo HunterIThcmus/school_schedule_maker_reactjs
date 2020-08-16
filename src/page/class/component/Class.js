@@ -67,11 +67,12 @@ export default function Class(props) {
                 `https://scheduleapi.herokuapp.com/classes`,
                 {
                     method: 'POST',
-                    headers: {
-                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjM1NGY5YmIxY2RjNjAwMTdjNTc5NDMiLCJpYXQiOjE1OTczMjkzMjZ9.BYL2jMXICTLgfJaEUzlgnCvcOsl8P9ZX7R2oF6hb7k4",
-                        // "auth-token":authHeader(),
-                        "Content-Type": "application/json",
-                    },
+                    headers: authHeader(),
+                    // {
+                    // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjM1NGY5YmIxY2RjNjAwMTdjNTc5NDMiLCJpYXQiOjE1OTczMjkzMjZ9.BYL2jMXICTLgfJaEUzlgnCvcOsl8P9ZX7R2oF6hb7k4",
+                    //     // "auth-token":authHeader(),
+                    //     "Content-Type": "application/json",
+                    // },
                     body: JSON.stringify({ number: number, grade: grade })
                 }
             ).then(response => console.log(response.json()))
