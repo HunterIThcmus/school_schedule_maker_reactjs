@@ -61,23 +61,7 @@ export default function Subject(props) {
 
     }
     async function handleButtonUpdate(index) {
-        try {
-            let response = await fetch(
-                `https://scheduleapi.herokuapp.com/subjects/` + data[index]._id,
-                {
-                    method: 'DELETE',
-                    headers: authHeader(),
-                    body: JSON.stringify()
-                }
-            )
-            let responseData = await response.json();
-            let newdata = [...data];
-            newdata.splice(index, 1);
-            setData(newdata);
-            console.log(responseData);
-        } catch (error) {
-            console.log("thow " + error.message);
-        }
+        history.push("/subject/update/"+data[index]._id);
     }
     function handleButtonAdd(){
         history.push("/subject/add/"+props.match.params.class_id);
@@ -125,11 +109,6 @@ export default function Subject(props) {
                             </Button>
                     </div>
                     {isBusy ? (<p></p>) : (
-                        //             data.map((item, index) => <li key={item.name}>{item.name}
-                        //                <button onClick={() => handleButtonDetele(index)}>
-                        //                     Delete
-                        // </button>
-                        //             </li>))} data.map((item, index) => <li key={item.name}>
                         data.map((item, index) => <li key={item.name}>
                             <Grid container spacing={1}>
                                 <Grid item xs={6}>

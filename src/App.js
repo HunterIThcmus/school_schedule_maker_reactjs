@@ -17,6 +17,10 @@ import TeacherList from "./page/view/TeacherList";
 import Header from "./components/Header";
 import PageError from "./components/PageError";
 import Home from "./page/view/Home";
+import Subject from "./page/subject/SubjectOfCLass"
+import CreateSubject from "./page/subject/CreateSubject"
+import UpdateSubject from "./page/subject/UpdateSubject"
+
 
 // import Footer from "./components/Footer";
 // import BreadcrumbPage from "./components/BreadcrumbPage";
@@ -44,6 +48,9 @@ function App() {
                 <Route path="/class" component={Class} />
                 <Route path="/teacher" component={Teacher} />
                 <Route path="/teacherlist" component={TeacherList} />
+                <Route path="/subject/view/:class_id" component={Subject} />
+                <Route path="/subject/add/:class_id" component={CreateSubject} />
+                <Route path="/subject/update/:subject_id" component={UpdateSubject} />
                 <Route path="/404" component={PageError} />
                 <Redirect from='*' to='/404' />
               </Switch>

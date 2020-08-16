@@ -2,6 +2,8 @@
 import authHeader from "./AuthHeader";
 import axios from "axios";
 
+
+
 const API_URL = "https://scheduleapi.herokuapp.com/subjects";
 const API_URLADD="https://scheduleapi.herokuapp.com/subjects/add/"
 
@@ -16,6 +18,11 @@ class SubjectReponsitory {
       headers:authHeader(),
     });
   }
+  getSubjectById(subject_id){
+    return axios.get(API_URL+"/"+ subject_id,{
+      headers:authHeader(),
+    });
+  }
   postCreateSubject(idClass,name,sortName,nLesson){
     return axios.post(API_URL,
       {
@@ -24,6 +31,16 @@ class SubjectReponsitory {
         sortName,
         nLesson
       } ,
+    {  headers:authHeader(),
+    })
+  }
+
+  PutUpdateSubject(idSubject,name,sortName,nLesson){
+    return axios.put(API_URL+"/"+idSubject,{
+      name,
+      sortName,
+      nLesson
+    },
     {  headers:authHeader(),
     })
   }

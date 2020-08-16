@@ -62,24 +62,6 @@ export default function Class(props) {
     }
     async function handleButtonView(index) {
         history.push("/subject/view/" + data[index]._id + "/" + data[index].name);
-        // try {
-        //      let response = await fetch(
-        //         `https://scheduleapi.herokuapp.com/classes/`+data[index]._id,
-        //         {
-        //             method: 'GET',
-        //             headers: {
-        //                 "auth-token": ".",
-        //                 "Content-Type": "application/json",
-        //             },
-        //             body: JSON.stringify()
-        //         }
-        //     )
-        //     let responseData = await response.json();
-        //     console.log(responseData);
-        // } catch (error) {
-        //     console.log("thow " + error.message);
-        // }
-
     }
 
     useEffect(() => {
@@ -96,8 +78,6 @@ export default function Class(props) {
                 let responseData = await response.json();
                 await setData(responseData.data);
                 await setBusy(false);
-                await console.log(data);
-                console.log(responseData.data);
             } catch (error) {
                 console.log("thow " + error.message);
             }
@@ -112,7 +92,7 @@ export default function Class(props) {
             <div className={classes.paper}>
                 <Typography component="h1" variant="h4"> DANH SÁCH LỚP  </Typography>
                 <div>
-                    {isBusy ? (<p></p>) : (
+                    {isBusy ? (<p>loading...</p>) : (
                         data.map((item, index) => <li key={item.name}>
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
