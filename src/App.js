@@ -16,6 +16,7 @@ import Teacher from "./page/view/Teacher";
 import TeacherList from "./page/view/TeacherList";
 import Header from "./components/Header";
 import PageError from "./components/PageError";
+import Home from "./page/view/Home";
 import Subject from "./page/subject/SubjectOfCLass"
 import CreateSubject from "./page/subject/CreateSubject"
 import UpdateSubject from "./page/subject/UpdateSubject"
@@ -26,7 +27,6 @@ import UpdateSubject from "./page/subject/UpdateSubject"
 
 function App() {
   const router = new Router().history;
-  console.log(router)
   return (
     <Router>
       <div className="App">
@@ -42,6 +42,7 @@ function App() {
             <div >
               <Switch>
                 <Route exact path="/" component={Login} />
+                <Route path="/home" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/class" component={Class} />

@@ -73,7 +73,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Đăng nhập
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -82,7 +82,7 @@ export default function SignIn() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Địa chỉ email"
             name="email"
             autoComplete="email"
             autoFocus
@@ -95,7 +95,7 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Mật khẩu"
             type="password"
             id="password"
             autoComplete="current-password"
@@ -103,7 +103,7 @@ export default function SignIn() {
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label="Nhớ mật khẩu"
           />
           <Button
             type="button"
@@ -113,17 +113,17 @@ export default function SignIn() {
             onClick={() => handleButton()}
             className={classes.submit}
           >
-            Sign In
+            Đăng nhập
           </Button>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Forgot password?
+                Quên mật khẩu?
               </Link>
             </Grid>
             <Grid item>
               <Link href="SignUp" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {"Chưa có tài khoản? Đăng ký"}
               </Link>
             </Grid>
           </Grid>
