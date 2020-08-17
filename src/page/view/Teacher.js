@@ -15,8 +15,8 @@ import { useHistory } from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,13 +41,13 @@ const useStyles = makeStyles((theme) => ({
   },
   formGroup: {
     // margin: theme.spacing(2,5),// TRBL
-    padding: theme.spacing(1,6)
+    padding: theme.spacing(1, 6),
   },
 }));
 
-export default function Teacher() {
+export default function Teacher(props) {
   const classes = useStyles();
-
+  const id = new URLSearchParams(props.location.search).get("id");
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [teacher_id, setTeacherId] = useState();
@@ -59,8 +59,24 @@ export default function Teacher() {
   const [requiredList, setRequiredList] = useState([]);
   const grades = ["10", "11", "12"];
   const history = useHistory();
-
   useEffect(() => {
+    if (id!=null && id.length > 0) {
+      async function getTeacherById() {
+        const response = await TeacherReponsitory.getTeacherById(id);
+        let body = response.data;
+        console.log(body);
+        setTeacherId(body.teacher_id);
+        setGrade(`${body.grade}`);
+        setSubject(body.subject);
+        setPeriodPerWeek(body.period_per_week);
+        setFirstName(body.name.substring(0, body.name.indexOf(" ")));
+        setLastName(
+          body.name.substring(body.name.indexOf(" "), body.name.length)
+        );
+        setRequired(body.require.toString());
+      }
+      getTeacherById();
+    }
     async function getCharacters() {
       const response = await SubjectReponsitory.getAllSubject();
       let body = response.data;
@@ -123,6 +139,10 @@ export default function Teacher() {
                 label="Họ"
                 autoFocus
                 onChange={(e) => setFirstName(e.target.value)}
+                InputLabelProps={{
+                  shrink: id!=null && id.length > 0 ? true : false,
+                }}
+                value={firstName}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -132,10 +152,15 @@ export default function Teacher() {
                 fullWidth
                 id="lastName"
                 label="Tên"
-                autoComplete="lname"
+                autoComplete="lastname"
                 onChange={(e) => setLastName(e.target.value)}
+                InputLabelProps={{
+                  shrink: id!=null && id.length > 0 ? true : false,
+                }}
+                value={lastName}
               />
             </Grid>
+            {/* {eval(required)} */}
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -145,6 +170,10 @@ export default function Teacher() {
                 label="ID Giáo viên"
                 autoComplete="teacher_id"
                 onChange={(e) => setTeacherId(e.target.value)}
+                InputLabelProps={{
+                  shrink: id!=null && id.length > 0 ? true : false,
+                }}
+                value={teacher_id}
               />
             </Grid>
             <Grid item xs={12}>
@@ -163,15 +192,31 @@ export default function Teacher() {
                 id="period_per_week"
                 autoComplete="period_per_week"
                 onChange={(e) => setPeriodPerWeek(e.target.value)}
+                InputLabelProps={{
+                  shrink: id!=null &&id.length > 0 ? true : false,
+                }}
+                value={period_per_week}
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl required  component="fieldset" className={classes.formControl} >
-                <FormLabel component="legend">Chọn ràng buộc của giáo viên</FormLabel>
-                <FormGroup row className={classes.formGroup} >
+              <FormControl
+                required
+                component="fieldset"
+                className={classes.formControl}
+              >
+                <FormLabel component="legend">
+                  Chọn ràng buộc của giáo viên
+                </FormLabel>
+                <FormGroup row className={classes.formGroup}>
                   {requiredList.map((element) => (
                     <FormControlLabel
-                      control={ <Checkbox onChange={(e) => checkRequired(element.type)} name={element.description} /> }
+                      control={
+                        <Checkbox
+                          onChange={(e) => checkRequired(element.type)}
+                          // checked={required[element.type] == '1'?true:false}
+                          name={element.description}
+                        />
+                      }
                       label={element.description}
                     />
                   ))}
@@ -188,6 +233,11 @@ export default function Teacher() {
                 id="grade"
                 autoComplete="grade"
                 onChange={(e) => setGrade(e.target.value)}
+                InputLabelProps={{
+                  shrink: id!=null && id.length > 0 ? true : false,
+                }}
+                value={grade}
+                key={grade}
               >
                 {grades.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -206,6 +256,11 @@ export default function Teacher() {
                 id="subject"
                 autoComplete="subject"
                 onChange={(e) => setSubject(e.target.value)}
+                InputLabelProps={{
+                  shrink: id!=null &&id.length > 0 ? true : false,
+                }}
+                value={subject}
+                key={subject}
               >
                 {grade != null
                   ? items.map((option) =>
@@ -227,7 +282,7 @@ export default function Teacher() {
                 onClick={() => handleButton()}
                 className={classes.submit}
               >
-                Tạo giáo viên
+                {id!=null &&id.length > 0 ? "Cập nhật" : "Tạo giáo viên"}
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>

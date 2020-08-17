@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import ScheduleReponsitory from "../../services/ScheduleReponsitory"
+import ScheduleReponsitory from "../../services/ScheduleReponsitory";
 import { forwardRef } from "react";
 import MaterialTable from "material-table";
-
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -22,90 +24,161 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import TeacherReponsitory from "../../services/TeacherReponsitory";
-import { useHistory } from "react-router-dom";
 
 const tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    DetailPanel: forwardRef((props, ref) => (
-        <ChevronRight {...props} ref={ref} />
-    )),
-    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => (
-        <ChevronLeft {...props} ref={ref} />
-    )),
-    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+  DetailPanel: forwardRef((props, ref) => (
+    <ChevronRight {...props} ref={ref} />
+  )),
+  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  PreviousPage: forwardRef((props, ref) => (
+    <ChevronLeft {...props} ref={ref} />
+  )),
+  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(20),
-    },
+  paper: {
+    marginTop: theme.spacing(20),
+  },
 }));
 export default function Home() {
-    const classes = useStyles();
-    const [data, setData] = useState([[]])
-    const [state, setState] = React.useState({
-        columns: [
-            { title: "Thứ 2", field: "mon" },
-            { title: "Thứ 3", field: "tus" },
-            { title: "Thứ 4", field: "wed" },
-            { title: "Thứ 5", field: "thu" },
-            { title: "Thứ 6", field: "fri" },
-            { title: "Thứ 7", field: "sat" },
-        ],
-    });
-    var array = new Array();
-    useEffect(() => {
-        async function schedule() {
-            const response = await ScheduleReponsitory.getSchedule();
-            let body = response.data;
-            // setData(body)
-            // setState(body[0].map(({name}) => {
-            //     return {
-            //         title: name, field: name
-            //     }
-            // }))
-            for (let index = 1; index < body.length; index++) {
-                //    for (let j = 0; j < body[index].length; j++) {
+  const classes = useStyles();
+  const [data, setData] = useState([]);
+  const [item, setItems] = React.useState({
+    column: [[]],
+  });
+  const [classList, setClassList] = useState([]);
+  const [state, setState] = React.useState({
+    columns: [
+      { title: "Ngày", field: "day" },
+      { title: "Tiết 1", field: "1" },
+      { title: "Tiết 2", field: "2" },
+      { title: "Tiết 3", field: "3" },
+      { title: "Tiết 4", field: "4" },
+      { title: "Tiết 5", field: "5" },
+    ],
+  });
 
-                //    }
-                // array.push(body[index][1])
-                console.log(body[index][0])
-            }
+  const [titleClass, setTitleClass] = useState();
+
+  var listclass = [];
+  useEffect(() => {
+    async function schedule() {
+      const response = await ScheduleReponsitory.getSchedule();
+      let body = response.data;
+      setClassList(body[0])
+      console.log(body[0])
+      for (let index = 1; index < body.length; index++) {
+        for (let index2 = 0; index2 < body[index].length; index2++) {
+          var value =
+            body[index][index2].subject + " - " + body[index][index2].teacher;
+          if (index === 1) {
+            listclass.push([value]);
+          } else {
+            listclass[index2].push(value);
+          }
         }
+      }
+      //convert each class to 2darray
+      var TwoDclass = [];
+      for (let index = 0; index < listclass.length; index++) {
+        for (let index2 = 0; index2 < listclass[index].length / 5; index2++) {
+          if (index2 === 0) {
+            TwoDclass.push([
+              listclass[index].slice(index2 * 5, index2 * 5 + 5),
+            ]);
+          } else {
+            TwoDclass[index].push(
+              listclass[index].slice(index2 * 5, index2 * 5 + 5)
+            );
+          }
+          TwoDclass[index][index2].unshift("Thứ " + (index2 + 2));
+        }
+      }
 
-        schedule();
-    }, [])
+      console.log(TwoDclass);
+      setItems({
+        ...item,
+        column: TwoDclass.map((arrayx) => (arrayx.map((arr)=>({
+            day: arr[0],
+            1: arr[1],
+            2: arr[2],
+            3: arr[3],
+            4: arr[4],
+            5: arr[5],
+        })))),
+      });
+      setData(TwoDclass[0].map((arr) => ({
+        day: arr[0],
+        1: arr[1],
+        2: arr[2],
+        3: arr[3],
+        4: arr[4],
+        5: arr[5],
+    })));
+    setTitleClass(body[0][0].name)
+    }
+    schedule();
+  }, []);
 
+  function onclickClass(className){
+    setTitleClass(className);
+    var index = classList.findIndex(event => event.name === className)
+    setData(item.column[index])
+  }
 
-    return (
-        <Container component="main">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <MaterialTable
-                    icons={tableIcons}
-                    title="Thời khóa biểu"
-                    columns={state.columns}
-                    //   data={data}
-                    options={{
-                        search: false,
-                    }}
-
-                />
-            </div>
-        </Container>
-    );
+  return (
+    <Container component="main">
+      <CssBaseline />
+      <div className={classes.paper}>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                variant="outlined"
+                required
+                select
+                fullWidth
+                label="Lớp"
+                id="grade"
+                autoComplete="grade"
+                onChange={(e) => onclickClass(e.target.value)}
+                InputLabelProps={{
+                  shrink: titleClass!=null && titleClass.length > 0 ? true : false,
+                }}
+                value={titleClass}
+                key={titleClass}
+              >
+                {classList.map((option) => (
+                  <MenuItem key={option.name} value={option.name}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <MaterialTable
+              icons={tableIcons}
+              title={"Thời khóa biểu " + (typeof titleClass !='undefined'? titleClass:"" )}
+              columns={state.columns}
+              data={data}
+              options={{
+                // search: false,
+                pageSize: 6,
+                paging: false,
+              }}
+            />
+      </div>
+    </Container>
+  );
 }
