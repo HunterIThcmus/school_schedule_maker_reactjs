@@ -16,23 +16,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import authHeader from "../../../services/AuthHeader";
 
-
-// const onFinish = values => {
-//     console.log('Vui lòng nhập đầy đủ thông tin.', values);
-// }
-// function Copyright() {
-//     return (
-//         <Typography variant="body2" color="textSecondary" align="center">
-//             {'Copyright © '}
-//             <Link color="inherit" href="https://material-ui.com/">
-//                 Your Website
-//         </Link>{' '}
-//             {new Date().getFullYear()}
-//             {'.'}
-//         </Typography>
-//     );
-// }
-
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),

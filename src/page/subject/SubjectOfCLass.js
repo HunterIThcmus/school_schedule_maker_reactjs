@@ -125,20 +125,20 @@ export default function Subject(props) {
                                 <Grid item xs={6}>
                                     {item.name}
                                 </Grid>
-                                <Grid item xs={3}>
+                                <Grid item xs={4}>
                                     <Button
                                         width="120"
                                         variant="contained"
                                         color="default" onClick={() => handleButtonUpdate(index)}
-                                    >Update</Button>
+                                    >Cập nhật </Button>
                                 </Grid>
-                                <Grid item xs={3}>
+                                <Grid item xs={2}>
                                     <Button
                                         width="120"
                                         variant="contained"
                                         color="secondary"
                                         onClick={() => handleButtonDetele(index)}>
-                                        Delete
+                                        Xóa 
                             </Button>
                                 </Grid>
                             </Grid>
