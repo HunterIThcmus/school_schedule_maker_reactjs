@@ -7,12 +7,7 @@ import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
 import authHeader from "../../../services/AuthHeader";
 import Button from "@material-ui/core/Button";
-// import SubjectInClass from "./page/subject/ListClass"
-// import UpdateClass from "./page/class/component/UpdateClass";
 
-
-// <Route path="/subject/update/:subject_id" component={UpdateSubject} />
-{/* <Route path="/classes/:class_id/:name" component={UpdateClass}/> */}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
