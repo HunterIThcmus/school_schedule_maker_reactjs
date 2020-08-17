@@ -77,12 +77,13 @@ export default function TeacherList() {
       let body = response.data;
       setItems(
         body.data.map(
-          ({ teacher_id, name, period_per_week, grade, subject }) => ({
+          ({ _id, teacher_id, name, period_per_week, grade, subject }) => ({
             id: teacher_id,
             name: name,
             period_per_week: period_per_week,
             grade: grade,
             subject: subject,
+            idTeacher: _id
           })
         )
       );
@@ -109,12 +110,12 @@ export default function TeacherList() {
             {
               icon: tableIcons.Edit,
               tooltip: "Chỉnh sửa",
-              onClick: (event, rowData) => update(rowData.id),
+              onClick: (event, rowData) => update(rowData.idTeacher),
             },
             {
               icon: tableIcons.Delete,
               tooltip: "Xóa",
-              onClick: (event, rowData) => deleteItem(rowData.id),
+              onClick: (event, rowData) => deleteItem(rowData.idTeacher),
             },
             {
               icon: tableIcons.Add,

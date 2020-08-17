@@ -50,7 +50,7 @@ export default function SignIn() {
   function handleButton() {
     Auth.login(email, password).then(
       () => {
-        history.push("/teacher");
+        history.push("/home");
         window.location.reload();
       },
       (error) => {
