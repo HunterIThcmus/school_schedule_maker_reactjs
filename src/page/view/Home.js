@@ -56,39 +56,173 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function Home() {
     const classes = useStyles();
-    const [data, setData] = useState([[]])
+    const [data, setData] = useState([])
+    const [item, setItems] = React.useState([[]]);
     const [state, setState] = React.useState({
         columns: [
-            { title: "Thứ 2", field: "mon" },
-            { title: "Thứ 3", field: "tus" },
-            { title: "Thứ 4", field: "wed" },
-            { title: "Thứ 5", field: "thu" },
-            { title: "Thứ 6", field: "fri" },
-            { title: "Thứ 7", field: "sat" },
+            { title: "Ngày", field: "day" },
+            { title: "Tiết 1", field: "1" },
+            { title: "Tiết 2", field: "2" },
+            { title: "Tiết 3", field: "3" },
+            { title: "Tiết 4", field: "4" },
+            { title: "Tiết 5", field: "5" },
         ],
     });
-    var array = new Array();
+    var listclass = [];
     useEffect(() => {
         async function schedule() {
             const response = await ScheduleReponsitory.getSchedule();
             let body = response.data;
-            // setData(body)
-            // setState(body[0].map(({name}) => {
-            //     return {
-            //         title: name, field: name
-            //     }
-            // }))
+            console.log(body[1], response.status)
             for (let index = 1; index < body.length; index++) {
                 //    for (let j = 0; j < body[index].length; j++) {
-
                 //    }
-                // array.push(body[index][1])
-                console.log(body[index][0])
+                for (let index2 = 0; index2 < body[index].length; index2++) {
+                    var value = body[index][index2].subject + " - " + body[index][index2].teacher;
+                    if (index === 1) {
+                        listclass.push([value])
+                    } else {
+                        listclass[index2].push(value)
+                    }
+                }
             }
-        }
 
+            //convert each class to 2darray
+            var TwoDclass = [];
+            for (let index = 0; index < listclass.length; index++) {
+
+                for (let index2 = 0; index2 < listclass[index].length / 5; index2++) {
+                    if (index2 === 0) {
+                        TwoDclass.push([listclass[index].slice(index2 * 5, index2 * 5 + 5)])
+                    } else {
+                        TwoDclass[index].push(listclass[index].slice(index2 * 5, index2 * 5 + 5))
+                    }
+                    TwoDclass[index][index2].unshift("Thứ " + (index2 + 2))
+                }
+            }
+            // console.log(TwoDclass, listclass.length, listclass[0] / 5);
+            // function mapclass(item) {
+            //     return item.map(
+            //         (arrayx) => ({
+            //             day: arrayx[0],
+            //             1: arrayx[1],
+            //             2: arrayx[2],
+            //             3: arrayx[3],
+            //             4: arrayx[4],
+            //             5: arrayx[5]
+            //         })
+            //     )
+            // }
+            setItems(
+                TwoDclass[0].map(
+                                  (arrayx) => ({
+                                    day: arrayx[0],
+                                    1: arrayx[1],
+                                    2: arrayx[2],
+                                    3: arrayx[3],
+                                    4: arrayx[4],
+                                    5:arrayx[5]
+                                  })
+                    )
+            );
+            console.log(item);
+
+        }
         schedule();
-    }, [])
+    }, []);
+    // // link subject and teacher
+    // for(let index=0 ;index < claas1.length; index++){
+    //     claas1[index]=claas1[index].subject+" - "+claas1[index].teacher;
+    // }
+    // var TwoDclass1= new Array();
+
+    // // convert to 2d
+    // for(let index=0 ;index < body.length/5; index++){
+    //     TwoDclass1.push(claas1.slice(index*5,index*5+5))
+    //     TwoDclass1[index].unshift("Thứ "+(index+2))
+    // }
+    // console.log(TwoDclass1);
+    // var tiet1=new Array();
+
+
+
+
+    //var TwoDclass1temp=TwoDclass1.map()
+    // TwoDclass1[0].map(
+    //       ({ mon, tus, wes, thu, fri }) => ({
+    //         tiet1.push(mon);
+    //       })
+    //     )
+    //   );
+    //         setItems(
+    //             TwoDclass1.map(
+    //               (arrayx) => ({
+    //                 day: arrayx[0],
+    //                 1: arrayx[1],
+    //                 2: arrayx[2],
+    //                 3: arrayx[3],
+    //                 4: arrayx[4],
+    //                 5:arrayx[5]
+    //               })
+    //             )
+    //           );
+    //         }
+    //     schedule();
+
+    // }, []);
+
+
+
+
+    // var claas1 = [];
+    // useEffect(() => {
+    //     async function schedule() {
+    //         const response = await ScheduleReponsitory.getSchedule();
+    //         let body = response.data;
+    //         console.log(body[0])
+    //         for (let index = 1; index < body.length; index++) {
+    //             //    for (let j = 0; j < body[index].length; j++) {
+    //             //    }
+    //             claas1.push(body[index][1])
+    //             // console.log(body[index])
+    //         }
+
+    //         // link subject and teacher
+    //         for(let index=0 ;index < claas1.length; index++){
+    //             claas1[index]=claas1[index].subject+" - "+claas1[index].teacher;
+    //         }
+    //         var TwoDclass1= new Array();
+
+    //         // convert to 2d
+    //         for(let index=0 ;index < body.length/5; index++){
+    //             TwoDclass1.push(claas1.slice(index*5,index*5+5))
+    //             TwoDclass1[index].unshift("Thứ "+(index+2))
+    //         }
+    //         console.log(TwoDclass1);
+    //         var tiet1=new Array();
+    //         //var TwoDclass1temp=TwoDclass1.map()
+    //         // TwoDclass1[0].map(
+    //         //       ({ mon, tus, wes, thu, fri }) => ({
+    //         //         tiet1.push(mon);
+    //         //       })
+    //         //     )
+    //         //   );
+    //         setItems(
+    //             TwoDclass1.map(
+    //               (arrayx) => ({
+    //                 day: arrayx[0],
+    //                 1: arrayx[1],
+    //                 2: arrayx[2],
+    //                 3: arrayx[3],
+    //                 4: arrayx[4],
+    //                 5:arrayx[5]
+    //               })
+    //             )
+    //           );
+    //         }
+    //     schedule();
+
+    // }, []);
 
 
     return (
@@ -96,15 +230,25 @@ export default function Home() {
             <CssBaseline />
             <div className={classes.paper}>
                 <MaterialTable
-                    icons={tableIcons}
-                    title="Thời khóa biểu"
-                    columns={state.columns}
-                    //   data={data}
-                    options={{
-                        search: false,
-                    }}
-
-                />
+                icons={tableIcons}
+                title="Thời khóa biểu lop 10a2"
+                columns={state.columns}
+                data={item}
+                options={{
+                    search: false,
+                }}
+            />
+                {/* {
+                    item.map((itm, index) =>
+                        <MaterialTable
+                            icons={tableIcons}
+                            title="Thời khóa biểu lop"
+                            columns={state.columns}
+                            data={itm}
+                            options={{
+                                search: false,
+                            }}
+                        />)} */}
             </div>
         </Container>
     );
