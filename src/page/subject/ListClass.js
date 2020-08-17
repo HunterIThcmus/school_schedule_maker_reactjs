@@ -1,3 +1,26 @@
+// import React, { useState, useEffect } from "react";
+// import CssBaseline from "@material-ui/core/CssBaseline";
+// import Grid from "@material-ui/core/Grid";
+// import Typography from "@material-ui/core/Typography";
+// import Container from '@material-ui/core/Container';
+// import ListClass from "../class/component/List_class";
+
+
+// import SubjectInClass from "./page/subject/ListClass"
+// export default function Page() {
+
+//     return (
+//         <Container component="main">
+//             <CssBaseline />
+//                 <Grid item xs={12}>
+//                     <ListClass add={"false"}></ListClass>
+//                 </Grid>
+
+//         </Container>
+
+//     );
+// };
+
 import React, { useState, useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -5,14 +28,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
-import authHeader from "../../../services/AuthHeader";
+import authHeader from "../../services/AuthHeader";
 import Button from "@material-ui/core/Button";
-// import SubjectInClass from "./page/subject/ListClass"
-// import UpdateClass from "./page/class/component/UpdateClass";
-
-
-// <Route path="/subject/update/:subject_id" component={UpdateSubject} />
-{/* <Route path="/classes/:class_id/:name" component={UpdateClass}/> */}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -40,36 +57,10 @@ export default function Class(props) {
     const [isBusy, setBusy] = useState(true);
     const history = useHistory()
 
-    async function handleButtonDelete(index) {
-        try {
-            let response = await fetch(
-                `https://scheduleapi.herokuapp.com/classes/` + data[index]._id,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjM1NDQzYmIxY2RjNjAwMTdjNTc4YTkiLCJpYXQiOjE1OTczMjY4MTZ9.FjnzhPAwfQB8XPSv9qksKipiYLRyWdPFFmWvzON0OUg",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify()
-                }
-            )
-            // let responseData = response.json;
-            // console.log(response);
-            let newdata = [...data];
-            newdata.splice(index, 1);
-            setData(newdata);
-
-
-        } catch (error) {
-            console.log("thow " + error.message);
-        }
-    }
-    async function handleButtonUpdate(index) {
-        // history.push("/subject/view/" + data[index]._id + "/" + data[index].name);
-        history.push("/classes/" + data[index]._id + "/" + data[index].name);
+    async function handleButtonView(index) {
+        history.push("/subject/view/" + data[index]._id + "/" + data[index].name);
 
     }
-
 
     const fetchData = async () => {
         // setBusy(true);
@@ -104,24 +95,15 @@ export default function Class(props) {
                     {isBusy ? (<p>loading...</p>) : (
                         data.map((item, index) => <li key={item.name}>
                             <Grid container spacing={2}>
-                                <Grid item xs={3}>
+                                {/* <Grid item xs={6}>
                                     {item.name}
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Button
-                                        width="120"
-                                        variant="contained"
-                                        color="default" onClick={() => handleButtonUpdate(index)}
-                                    >Cập nhật </Button>
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={3}>
                                     <Button
                                         width="120"
                                         variant="contained"
-                                        color="secondary"
-                                        onClick={() => handleButtonDelete(index)}>
-                                        Xóa
-                                </Button>
+                                        color="default" onClick={() => handleButtonView(index)}
+                                    >{item.name}</Button>
                                 </Grid>
                             </Grid>
 

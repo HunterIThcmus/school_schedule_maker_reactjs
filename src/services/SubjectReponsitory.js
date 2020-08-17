@@ -23,13 +23,19 @@ class SubjectReponsitory {
       headers:authHeader(),
     });
   }
-  postCreateSubject(idClass,name,sortName,nLesson){
+  getRequiredSubject(){
+    return axios.get(API_URL+"/requires",{
+      headers:authHeader(),
+    });
+  }
+  postCreateSubject(idClass,name,sortName,nLesson,require){
     return axios.post(API_URL,
       {
         idClass,
         name,
         sortName,
-        nLesson
+        nLesson,
+        require
       } ,
     {  headers:authHeader(),
     })

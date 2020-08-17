@@ -9,9 +9,12 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import SubjectReponsitory from "../../services/SubjectReponsitory";
-import MenuItem from '@material-ui/core/MenuItem';
-import { useHistory ,useLocation} from 'react-router-dom';
-
+import { useHistory, useLocation } from 'react-router-dom';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -40,19 +43,41 @@ export default function Add(props) {
     const [Name, setName] = useState();
     const [ShortName, setShortName] = useState();
     const [Nlession, setNLession] = useState();
+    const [required, setRequired] = useState();
+    const [requiredList, setRequiredList] = useState([]);
     const history = useHistory();
+    var str = "0000000000";
+    function checkRequired(type) {
+        str = setCharAt(str, type, str.charAt(type) == "0" ? "1" : "0");
+    }
+    function setCharAt(str, index, chr) {
+        if (index > str.length - 1) return str;
+        return str.substring(0, index) + chr + str.substring(index + 1);
+    }
+
     async function handleButton() {
-        console.log("ok")
+        setRequired(str);
         let result = await SubjectReponsitory.postCreateSubject(
             props.match.params.class_id,
             Name,
             ShortName,
-            Nlession
+            Nlession,
+            str
         );
         console.log(result.status);
         history.goBack();
 
     }
+
+  useEffect(() => {
+    async function getRequired() {
+      const response = await SubjectReponsitory.getRequiredSubject();
+      let body = response.data;
+      setRequiredList(body.data);
+    }
+    getRequired();
+  }, []);
+   
 
     return (
         <Container component="main" maxWidth="xs">
@@ -120,6 +145,19 @@ export default function Add(props) {
                 onChange={(e) => setRequired(e.target.value)}
               />
             </Grid> */}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl required component="fieldset" className={classes.formControl} >
+                            <FormLabel component="legend">Chọn ràng buộc cho môn học</FormLabel>
+                            <FormGroup row className={classes.formGroup} >
+                                {requiredList.map((element) => (
+                                    <FormControlLabel
+                                        control={<Checkbox onChange={(e) => checkRequired(element.type)} name={element.description} />}
+                                        label={element.description}
+                                    />
+                                ))}
+                            </FormGroup>
+                        </FormControl>
                     </Grid>
                     <Button
                         type="button"

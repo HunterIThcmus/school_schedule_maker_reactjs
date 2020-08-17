@@ -61,7 +61,7 @@ class Header extends React.Component {
                     <MDBNavLink to="/class">Lớp</MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem>
-                    <MDBNavLink to="/subject">Môn học</MDBNavLink>
+                    <MDBNavLink to="/subject_cl">Môn học</MDBNavLink>
                   </MDBNavItem>
                 </MDBNavbarNav> 
                 <MDBNavbarNav right>

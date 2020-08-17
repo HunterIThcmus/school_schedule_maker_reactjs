@@ -60,10 +60,9 @@ export default function Class(props) {
     const [grade, setGrade] = React.useState(value[0]);
     const [number, setNumber] = useState('');
     async function handleButton(e) {
-         e.preventDefault();
-         props.change("false");
+        e.preventDefault();
         try {
-            await fetch(
+            let response = await fetch(
                 `https://scheduleapi.herokuapp.com/classes`,
                 {
                     method: 'POST',
@@ -75,7 +74,10 @@ export default function Class(props) {
                     // },
                     body: JSON.stringify({ number: number, grade: grade })
                 }
-            ).then(response => console.log(response.json()))
+            )
+            props.change(!props.add);
+
+            console.log(response.json());
         } catch (error) {
             console.log("thow " + error.message);
         }
@@ -85,7 +87,7 @@ export default function Class(props) {
         <Container component="main">
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h4"> THÊM LỚP </Typography>
+                <Typography component="h1" variant="h5"> THÊM LỚP </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} xm={6} >
@@ -115,17 +117,17 @@ export default function Class(props) {
 
                     </Grid>
                     <Grid item xs={12} xm={6}>
-                    <Button
-                        type="submit"
-                        width="120"
-                        variant="contained"
-                        color="primary"
-                        onClick={(e) => handleButton(e)}
-                        className={classes.submit}
-                    >
-                        Thêm mới
+                        <Button
+                            type="submit"
+                            width="120"
+                            variant="contained"
+                            color="primary"
+                            onClick={(e) => handleButton(e)}
+                            className={classes.submit}
+                        >
+                            Thêm mới
                      </Button>
-                     </Grid>
+                    </Grid>
                 </form>
             </div>
 

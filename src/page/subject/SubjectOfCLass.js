@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useHistory ,useLocation} from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import authHeader from "../../services/AuthHeader";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,19 +41,30 @@ export default function Subject(props) {
 
     async function handleButtonDetele(index) {
         try {
-            let response = await fetch(
+            await fetch(
                 `https://scheduleapi.herokuapp.com/subjects/` + data[index]._id,
                 {
                     method: 'DELETE',
                     headers: authHeader(),
                     body: JSON.stringify()
                 }
-            )
-            let responseData = await response.json();
-            let newdata = [...data];
-            newdata.splice(index, 1);
-            setData(newdata);
-            console.log(responseData);
+            ).then(
+                (response) => {
+                    let responseData = response.json();
+                    let newdata = [...data];
+                    newdata.splice(index, 1);
+                    setData(newdata);
+                    console.log(responseData);
+                },
+                (error) => {
+                    console.log("loi cap nhap");
+                }
+            );
+            // let responseData = await response.json();
+            // let newdata = [...data];
+            // newdata.splice(index, 1);
+            // setData(newdata);
+            // console.log(responseData);
         } catch (error) {
             console.log("thow " + error.message);
         }
@@ -61,10 +72,10 @@ export default function Subject(props) {
 
     }
     async function handleButtonUpdate(index) {
-        history.push("/subject/update/"+data[index]._id);
+        history.push("/subject/update/" + data[index]._id);
     }
-    function handleButtonAdd(){
-        history.push("/subject/add/"+props.match.params.class_id);
+    function handleButtonAdd() {
+        history.push("/subject/add/" + props.match.params.class_id);
     }
 
 
@@ -96,7 +107,7 @@ export default function Subject(props) {
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-            {/* {props.match.params.name} */}
+                {/* {props.match.params.name} */}
                 <Typography component="h1" variant="h5"> DANH SÁCH MÔN CỦA LỚP </Typography>
                 <div>
                     <div>

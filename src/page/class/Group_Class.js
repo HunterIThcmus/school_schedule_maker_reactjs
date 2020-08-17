@@ -46,7 +46,7 @@ import ListClass from "./component/List_class";
 // const value = [{ title: '10', value: 10 }, { title: '11', value: 11 }, { title: '12', value: 12 },];
 
 export default function Page() {
-    const[add,setAdd]=useState("true");
+    const[add,setAdd]=useState(true);
 
     return (
         <Container component="main">
